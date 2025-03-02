@@ -2,4 +2,4 @@
 
 If you discover a security vulnerability, **DO NOT** create a public issue.
 
-**Please contact us privately at:** security@example.com
+**Please contact us privately at:** zdunovvl@gmail.com
