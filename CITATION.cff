@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+title: Timeweb SDK
+message: 'If you use this software, please cite it as below'
+type: software
+authors:
+  - given-names: Vlas
+    family-names: Zdunov
+repository-code: 'https://github.com/vlaszdunov/timeweb-sdk'
+keywords:
+  - python
+  - sdk
+license: MIT
