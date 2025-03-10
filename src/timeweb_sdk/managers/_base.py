@@ -8,10 +8,6 @@ class _Base:
     def __init__(self, access_token):
         self.__access_token = access_token
 
-    __root_url: str = "https://api.timeweb.cloud/api"
-    __api_version: str = "/v1"
-    _base_url: str = __root_url + __api_version
-
     def make_request(self, method: str, endpoint, data: dict = Optional[None]):
         match method:
             case "get":
