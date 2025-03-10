@@ -1,5 +1,4 @@
 from timeweb_sdk.managers._base import _Base
-from typing import Optional
 
 
 class CloudServerManager(_Base):
@@ -8,6 +7,7 @@ class CloudServerManager(_Base):
     __get_servers = {"method": "get", "endpoint": __base_endpoint}
     __get_server = {"method": "get", "endpoint": __base_endpoint}
     __get_os = {"method": "get", "endpoint": f"{__root_url}/os/servers"}
+    __get_presets = {"method": "get", "endpoint": f"{__root_url}/presets/servers"}
 
     def __init__(self, access_token):
         super().__init__(access_token)
@@ -20,3 +20,6 @@ class CloudServerManager(_Base):
 
     def get_os(self):
         return self.make_request(self.__get_os["method"], self.__get_os["endpoint"])
+
+    def get_server_presets(self):
+        return self.make_request(self.__get_presets["method"], self.__get_presets["endpoint"])
