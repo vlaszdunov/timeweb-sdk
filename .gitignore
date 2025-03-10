@@ -1,0 +1,34 @@
+#Byte-compiled
+__pycache__/
+
+#Environment
+.venv/
+.env
+venv/
+
+# Build
+build/
+dist/
+*.manifest
+*.spec
+
+# Tests
+.pytest_cache/
+
+# IDE-staff
+*.iws
+.idea/**/workspace.xml
+.idea/**/shelf/
+.idea/**/httpRequests/
+.idea/**/dataSources/
+.idea/**/dataSources.ids
+.idea/**/dataSources.local.xml
+
+#linter
+.idea/**/ruff.xml
+.ruff_cache/
+
+#discord-presense
+.idea/**/discord.xml
+
+tests/manual_tests.py
