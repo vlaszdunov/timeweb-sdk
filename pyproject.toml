@@ -9,11 +9,30 @@ license = { text = "MIT" }
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
+    "httpx (>=0.28.1,<0.29.0)"
 ]
 
 [tool.poetry]
 packages=[{include="timeweb_sdk",from="src"}]
 requires-poetry = ">=2.0"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.9.10"
+
+[tool.ruff]
+indent-width = 4
+line-length = 120
+namespace-packages = ["src/timeweb_sdk"]
+output-format = "grouped"
+src = ["src"]
+target-version = "py313"
+
+[tool.ruff.format]
+docstring-code-format = true
+docstring-code-line-length = "dynamic"
+indent-style = "space"
+line-ending = "auto"
+skip-magic-trailing-comma = true
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
