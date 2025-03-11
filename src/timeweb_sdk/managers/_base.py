@@ -16,9 +16,16 @@ class _Base:
                 return self._post(endpoint, data)
 
     def _get(self, endpoint):
-        return get(url=endpoint, auth=BearerAuth(self.__access_token), headers={"Content-Type": "application/json"})
+        return get(
+            url=endpoint,
+            auth=BearerAuth(self.__access_token),
+            headers={"Content-Type": "application/json"},
+        )
 
     def _post(self, endpoint, data):
         return post(
-            url=endpoint, json=data, auth=BearerAuth(self.__access_token), headers={"Content-Type": "application/json"}
+            url=endpoint,
+            json=data,
+            auth=BearerAuth(self.__access_token),
+            headers={"Content-Type": "application/json"},
         )

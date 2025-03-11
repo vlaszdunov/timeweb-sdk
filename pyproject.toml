@@ -36,7 +36,7 @@ docstring-code-format = true
 docstring-code-line-length = "dynamic"
 indent-style = "space"
 line-ending = "auto"
-skip-magic-trailing-comma = true
+skip-magic-trailing-comma = false
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
