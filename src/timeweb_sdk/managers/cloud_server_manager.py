@@ -14,6 +14,15 @@ class CloudServerManager(_Base):
     __get_server_logs = {"method": "get", "endpoint": f"{__base_endpoint}/server_id/logs"}
     __get_server_drives = {"method": "get", "endpoint": f"{__base_endpoint}/server_id/disks"}
     __get_server_drive_by_id = {"method": "get", "endpoint": f"{__base_endpoint}/server_id/disks/drive_id"}
+    __get_drive_autobackup_settings = {
+        "method": "get",
+        "endpoint": f"{__base_endpoint}/server_id/disks/drive_id/auto-backups",
+    }
+    __get_all_drive_backups = {"method": "get", "endpoint": f"{__base_endpoint}/server_id/disks/drive_id/backups"}
+    __get_drive_backup_by_id = {
+        "method": "get",
+        "endpoint": f"{__base_endpoint}/server_id/disks/drive_id/backups/backup_id",
+    }
 
     def __init__(self, access_token):
         super().__init__(access_token)
@@ -62,4 +71,29 @@ class CloudServerManager(_Base):
             self.__get_server_drive_by_id["endpoint"]
             .replace("server_id", str(server_id))
             .replace("drive_id", str(drive_id)),
+        )
+
+    def get_drive_backup_settings(self, server_id: int, drive_id: int):
+        return self.make_request(
+            self.__get_drive_autobackup_settings["method"],
+            self.__get_drive_autobackup_settings["endpoint"]
+            .replace("server_id", str(server_id))
+            .replace("drive_id", str(drive_id)),
+        )
+
+    def get_all_drive_backups(self, server_id: int, drive_id: int):
+        return self.make_request(
+            self.__get_all_drive_backups["method"],
+            self.__get_all_drive_backups["endpoint"]
+            .replace("server_id", str(server_id))
+            .replace("drive_id", str(drive_id)),
+        )
+
+    def get_drive_backup_by_id(self, server_id: int, drive_id: int, backup_id: int):
+        return self.make_request(
+            self.__get_drive_backup_by_id["method"],
+            self.__get_drive_backup_by_id["endpoint"]
+            .replace("server_id", str(server_id))
+            .replace("drive_id", str(drive_id))
+            .replace("backup_id", str(backup_id)),
         )
