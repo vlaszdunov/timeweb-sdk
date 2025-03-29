@@ -23,6 +23,7 @@ class CloudServerManager(_Base):
         "method": "get",
         "endpoint": f"{__base_endpoint}/server_id/disks/drive_id/backups/backup_id",
     }
+    __shutdown_server = {"method": "post", "endpoint": f"{__base_endpoint}/server_id/shutdown"}
 
     def __init__(self, access_token):
         super().__init__(access_token)
@@ -96,4 +97,10 @@ class CloudServerManager(_Base):
             .replace("server_id", str(server_id))
             .replace("drive_id", str(drive_id))
             .replace("backup_id", str(backup_id)),
+        )
+
+    def shutdown_server(self, server_id: int):
+        return self.make_request(
+            self.__shutdown_server["method"],
+            self.__shutdown_server["endpoint"].replace("server_id", str(server_id)),
         )
