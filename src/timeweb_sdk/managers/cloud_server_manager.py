@@ -1,4 +1,5 @@
 from timeweb_sdk.managers._base import _Base
+from timeweb_sdk.entities import CloudServer
 from typing import Literal, Annotated, Optional
 from annotated_types import Ge, Le
 from warnings import deprecated
@@ -12,17 +13,22 @@ class CloudServerManager(_Base):
         super().__init__(access_token)
         self.__access_token = access_token
 
-    def get_list_of_servers(self):
-        return self._make_request(
+    def get_list_of_servers(self) -> list[CloudServer]:
+        response = self._make_request(
             "get",
             self.__base_endpoint,
         )
+        list_of_servers = []
+        for server in response["servers"]:
+            list_of_servers.append(CloudServer(self.__access_token, **server))
+        return list_of_servers
 
-    def get_server_by_id(self, server_id: int):
-        return self._make_request(
+    def get_server_by_id(self, server_id: int) -> CloudServer:
+        response = self._make_request(
             "get",
             f"{self.__base_endpoint}/{server_id}",
         )
+        return CloudServer(self.__access_token, **response["server"])
 
     @deprecated("Deprecated! Use methods like ``shutdown_server()`` instead.")
     def execute_server_action(
