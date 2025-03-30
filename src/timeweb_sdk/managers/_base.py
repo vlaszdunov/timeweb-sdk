@@ -1,9 +1,29 @@
 import json
 from collections import OrderedDict
 from typing import Optional, Literal
-
+from timeweb_sdk.utils.exceptions import *
 from timeweb_sdk.utils import BearerAuth
-from httpx import get, post, delete, put, patch, codes
+from httpx import get, post, delete, patch, codes, Response
+
+
+def _match_responses(response: Response):
+    match response.status_code:
+        case codes.OK | codes.CREATED:
+            return json.loads(response.text, object_hook=lambda pairs: OrderedDict(pairs))
+        case codes.NO_CONTENT:
+            return
+        case codes.BAD_REQUEST:
+            raise HTTPBadRequestError(response.json()["message"])
+        case codes.UNAUTHORIZED:
+            raise HTTPUnauthorizedError(response.json()["message"])
+        case codes.FORBIDDEN:
+            raise HTTPForbiddenError(response.json()["message"])
+        case codes.NOT_FOUND:
+            raise HTTPNotFoundError(response.json()["message"])
+        case codes.TOO_MANY_REQUESTS:
+            raise HTTPTooManyRequestsError(response.json()["message"])
+        case codes.INTERNAL_SERVER_ERROR:
+            raise HTTPInternalServerError(response.json()["message"])
 
 
 class _Base:
@@ -19,7 +39,7 @@ class _Base:
             case "patch":
                 return self.__patch(endpoint, data)
             case "delete":
-                return self.__delete(endpoint, data)
+                return self.__delete(endpoint)
 
     def __get(self, endpoint):
         response = get(
@@ -27,29 +47,30 @@ class _Base:
             auth=BearerAuth(self.__access_token),
             headers={"Content-Type": "application/json"},
         )
-        match response.status_code:
-            case codes.OK:
-                return json.loads(response.text, object_hook=lambda pairs: OrderedDict(pairs))
+        _match_responses(response)
 
     def __post(self, endpoint, data):
-        return post(
+        response = post(
             url=endpoint,
             json=data,
             auth=BearerAuth(self.__access_token),
             headers={"Content-Type": "application/json"},
         )
+        _match_responses(response)
 
     def __patch(self, endpoint, data):
-        return patch(
+        response = patch(
             url=endpoint,
             json=data,
             auth=BearerAuth(self.__access_token),
             headers={"Content-Type": "application/json"},
         )
+        _match_responses(response)
 
     def __delete(self, endpoint):
-        return delete(
+        response = delete(
             url=endpoint,
             auth=BearerAuth(self.__access_token),
             headers={"Content-Type": "application/json"},
         )
+        _match_responses(response)
