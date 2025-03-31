@@ -1,3 +1,3 @@
-from .CloudServerModels import CloudServerModel
+from .cloud_server_model import CloudServerModel
 
 __all__ = ["CloudServerModel"]

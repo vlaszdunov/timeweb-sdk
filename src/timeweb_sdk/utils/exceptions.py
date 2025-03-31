@@ -8,7 +8,7 @@ __all__ = [
 ]
 
 
-class HTTPError(HTTPError):
+class HTTPError(Exception):
     """Base exception class for all HTTP-related errors."""
 
 

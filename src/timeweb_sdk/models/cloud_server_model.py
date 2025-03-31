@@ -1,20 +1,19 @@
 from typing import List
 from pydantic import BaseModel, Field
-from typing import Optional
 
 
-class OS(BaseModel):
+class OSModel(BaseModel):
     id: int
     name: str
     version: str
 
 
-class Software(BaseModel):
+class SoftwareModel(BaseModel):
     id: int = Field(default=None)
     name: str = Field(default=None)
 
 
-class Disk(BaseModel):
+class DriveModel(BaseModel):
     id: int
     size: int
     used: int
@@ -25,25 +24,25 @@ class Disk(BaseModel):
     status: str
 
 
-class IPAddress(BaseModel):
+class IPAddressModel(BaseModel):
     type: str
     ip: str
     ptr: str | None = Field(default=None)
     is_main: bool
 
 
-class Network(BaseModel):
+class NetworkModel(BaseModel):
     id: str | None = Field(default=None)
     type: str
     nat_mode: str = Field(default=None)
     bandwidth: int = Field(default=None)
-    ips: List[IPAddress]
-    is_ddos_guard: bool = Field(default=None)
+    ips: List[IPAddressModel]
+    ddos_guard_enabled: bool = Field(default=None,alias="is_ddos_guard")
     is_image_mounted: bool = Field(default=None)
     blocked_ports: List[int] = Field(default=None)
 
 
-class Image(BaseModel):
+class ImageModel(BaseModel):
     id: str
     name: str
     is_custom: bool
@@ -53,28 +52,28 @@ class CloudServerModel(BaseModel):
     id: int
     name: str
     comment: str
-    created_at: str
-    os: OS
-    software: Software | None
+    creation_time: str=Field(alias='created_at')
+    os: OSModel
+    software: SoftwareModel | None
     preset_id: int | None
     location: str
     configurator_id: int | None
     boot_mode: str
     status: str
-    start_at: str | None
-    is_ddos_guard: bool
-    is_master_ssh: bool
+    start_time: str | None=Field(alias="start_at")
+    ddos_guard_enabled:bool=Field(alias="is_ddos_guard")
+    support_ssh: bool = Field(alias="is_master_ssh")
     is_dedicated_cpu: bool
     gpu: int
     cpu: int
     cpu_frequency: str
     ram: int
-    disks: List[Disk]
+    disks: List[DriveModel]
     avatar_id: str | None
     vnc_pass: str
     root_pass: str | None
-    image: Image | None
-    networks: List[Network]
+    image: ImageModel | None
+    networks: List[NetworkModel]
     cloud_init: str | None
-    is_qemu_agent: bool
+    qemu_agent_enabled: bool = Field(alias="is_qemu_agent")
     availability_zone: str

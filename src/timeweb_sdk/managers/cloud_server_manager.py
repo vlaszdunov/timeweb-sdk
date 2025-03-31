@@ -47,7 +47,8 @@ class CloudServerManager(_Base):
         ],
     ):
         data = {"action": action}
-        return self._make_request("post", f"{self.__base_endpoint}/{server_id}/action", data)
+        response = self._make_request("post", f"{self.__base_endpoint}/{server_id}/action", data)
+        return CloudServer(self.__access_token, **response["server"])
 
     def clone_server(self, server_id: int):
         return self._make_request("post", f"{self.__base_endpoint}/{server_id}/clone")
