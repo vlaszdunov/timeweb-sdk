@@ -1,6 +1,6 @@
 [project]
 name = "timeweb-sdk"
-version = "0.1.0.a0.dev0"
+version = "0.1.0.dev0"
 description = "Python SDK for Timeweb Cloud API"
 authors = [
     { name = "vlaszdunov", email = "zdunovvl@gmail.com" }
