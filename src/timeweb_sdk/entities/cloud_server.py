@@ -82,8 +82,20 @@ class CloudServer(_Base):
     def start(self):
         self._make_request("post", f"{self.__base_endpoint}/{self.id}/start")
 
+    def reboot(self):
+        self._make_request("post", f"{self.__base_endpoint}/{self.id}/reboot")
+
     def shutdown(self):
         self._make_request("post", f"{self.__base_endpoint}/{self.id}/shutdown")
+
+    def hard_shutdown(self):
+        self._make_request("post", f"{self.__base_endpoint}/{self.id}/hard-shutdown")
+
+    def clone(self):
+        self._make_request("post", f"{self.__base_endpoint}/{self.id}/clone")
+
+    def reset_password(self):
+        self._make_request("post", f"{self.__base_endpoint}/{self.id}/reset-password")
 
     @deprecated("Deprecated! Use methods like ``shutdown``")
     def execute_server_action(
