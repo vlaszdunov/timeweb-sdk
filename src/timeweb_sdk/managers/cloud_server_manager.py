@@ -1,4 +1,4 @@
-from timeweb_sdk.managers._base import _Base
+from timeweb_sdk.utils._base import _Base
 from timeweb_sdk.entities import CloudServer
 from typing import Literal, Annotated, Optional
 from annotated_types import Ge, Le

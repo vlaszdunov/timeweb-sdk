@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
-from typing import List
+
+__all__ = ["SoftwareModel"]
 
 
 class SoftwareModel(BaseModel):
