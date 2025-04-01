@@ -114,3 +114,7 @@ class CloudServer(_Base):
     ):
         data = {"action": action}
         self._make_request("post", f"{self.__base_endpoint}/{self.id}/action", data)
+
+    def change_boot_mode(self,boot_mode: Literal["default", "single", "reset-password"]):
+        data = {"boot_mode": boot_mode}
+        self._make_request("post", f"{self.__base_endpoint}/{self.id}/boot-mode", data)
