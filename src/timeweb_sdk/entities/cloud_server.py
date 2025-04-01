@@ -1,8 +1,8 @@
-from typing import Any, Literal
+from typing import Any, Literal, Optional
 from warnings import deprecated
 from timeweb_sdk.utils._base import _Base
 from timeweb_sdk.models import CloudServerModel
-from .network import Network
+from .network import Network, IPAddress
 from .os import OS
 from .software import Software
 from .drive import Drive
@@ -92,7 +92,7 @@ class CloudServer(_Base):
         self._make_request("post", f"{self.__base_endpoint}/{self.id}/hard-shutdown")
 
     def clone(self):
-        response= self._make_request("post", f"{self.__base_endpoint}/{self.id}/clone")
+        response = self._make_request("post", f"{self.__base_endpoint}/{self.id}/clone")
         return CloudServer(self.__access_token, **response["server"])
 
     def reset_password(self):
@@ -114,9 +114,50 @@ class CloudServer(_Base):
         ],
     ):
         data = {"action": action}
-        self._make_request("post", f"{self.__base_endpoint}/{self.id}/action", data)
+        self._make_request(
+            "post",
+            f"{self.__base_endpoint}/{self.id}/action",
+            data,
+        )
 
-    def change_boot_mode(self,boot_mode: Literal["default", "single", "reset-password"]):
+    def change_boot_mode(self, boot_mode: Literal["default", "single", "reset-password"]):
         data = {"boot_mode": boot_mode}
-        self._make_request("post", f"{self.__base_endpoint}/{self.id}/boot-mode", data)
+        self._make_request(
+            "post",
+            f"{self.__base_endpoint}/{self.id}/boot-mode",
+            data,
+        )
 
+    def set_nat_mode(self, nat_mode: Literal["dnat_and_snat", "dnat_and_snat", "snat"]):
+        data = {"nat_mode": nat_mode}
+        self._make_request(
+            "patch",
+            f"{self.__base_endpoint}/{self.id}/local-networks/nat-mode",
+            data,
+        )
+
+    def add_ip(self, ip_type: Literal["ipv4", "ipv6"], ptr: Optional[str] = None):
+        data = {"type": ip_type, "ptr": ptr}
+        response = self._make_request(
+            "patch",
+            f"{self.__base_endpoint}/{self.id}/ips",
+            data,
+        )
+        return IPAddress(**response["server_ip"])
+
+    def delete_ip(self, ip:str):
+        data = {"ip": ip}
+        self._make_request(
+            "delete",
+            f"{self.__base_endpoint}/{self.id}/ips",
+            data,
+        )
+
+    def change_ip(self, ip:str,ptr:str):
+        data = {"ip": ip, "ptr": ptr}
+        response=self._make_request(
+            "delete",
+            f"{self.__base_endpoint}/{self.id}/ips",
+            data,
+        )
+        return IPAddress(**response["server_ip"])
