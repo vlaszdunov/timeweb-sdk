@@ -92,7 +92,8 @@ class CloudServer(_Base):
         self._make_request("post", f"{self.__base_endpoint}/{self.id}/hard-shutdown")
 
     def clone(self):
-        self._make_request("post", f"{self.__base_endpoint}/{self.id}/clone")
+        response= self._make_request("post", f"{self.__base_endpoint}/{self.id}/clone")
+        return CloudServer(self.__access_token, **response["server"])
 
     def reset_password(self):
         self._make_request("post", f"{self.__base_endpoint}/{self.id}/reset-password")
@@ -118,3 +119,4 @@ class CloudServer(_Base):
     def change_boot_mode(self,boot_mode: Literal["default", "single", "reset-password"]):
         data = {"boot_mode": boot_mode}
         self._make_request("post", f"{self.__base_endpoint}/{self.id}/boot-mode", data)
+
