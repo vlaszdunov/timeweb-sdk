@@ -1,5 +1,8 @@
-from typing import Any, Literal, Optional
+from typing import Any, Literal, Optional, Annotated
 from warnings import deprecated
+
+from annotated_types import Ge, Le
+
 from timeweb_sdk.utils._base import _Base
 from timeweb_sdk.models import CloudServerModel
 from .network import Network, IPAddress
@@ -145,7 +148,7 @@ class CloudServer(_Base):
         )
         return IPAddress(**response["server_ip"])
 
-    def delete_ip(self, ip:str):
+    def delete_ip(self, ip: str):
         data = {"ip": ip}
         self._make_request(
             "delete",
@@ -153,11 +156,43 @@ class CloudServer(_Base):
             data,
         )
 
-    def change_ip(self, ip:str,ptr:str):
+    def change_ip(self, ip: str, ptr: str):
         data = {"ip": ip, "ptr": ptr}
-        response=self._make_request(
+        response = self._make_request(
             "delete",
             f"{self.__base_endpoint}/{self.id}/ips",
             data,
         )
         return IPAddress(**response["server_ip"])
+
+    def create_drive(self, drive_size: Annotated[int, Ge(5120), Le(512000)]):
+        data = {"size": drive_size}
+        response = self._make_request(
+            "post",
+            f"{self.__base_endpoint}/{self.id}/disks",
+            data,
+        )
+        return Drive(**response["server_disk"])
+
+    def change_drive_size(self, drive_id: int, drive_size: Annotated[int, Ge(5120), Le(512000)]):
+        data = {"size": drive_size}
+        response = self._make_request(
+            "patch",
+            f"{self.__base_endpoint}/{self.id}/disks/{drive_id}",
+            data,
+        )
+        return Drive(**response["server_disk"])
+
+    def delete_drive(self, drive_id: int):
+        response = self._make_request(
+            "delete",
+            f"{self.__base_endpoint}/{self.id}/disks/{drive_id}",
+        )
+
+    def create_drive_backup(self, drive_id: int, comment: Optional[str]):
+        data = {"comment": comment}
+        return self._make_request(
+            "post",
+            f"{self.__base_endpoint}/{self.id}/disks/{drive_id}/backups",
+            data,
+        )

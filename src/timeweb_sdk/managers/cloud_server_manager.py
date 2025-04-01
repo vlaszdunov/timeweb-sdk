@@ -164,7 +164,7 @@ class CloudServerManager(_Base):
             f"{self.__base_endpoint}/{server_id}/disks/{drive_id}",
         )
 
-    def change_server_drive_settings(self, server_id: int, drive_id: int, drive_size: Annotated[int, Ge(ge=5120)]):
+    def change_server_drive_size(self, server_id: int, drive_id: int, drive_size: Annotated[int, Ge(ge=5120)]):
         data = {"size": drive_size}
         return self._make_request(
             "patch",
