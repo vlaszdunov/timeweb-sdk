@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from timeweb_sdk.models import ImageModel
-__all__=["Image"]
+
+__all__ = ["Image"]
+
 
 @dataclass
 class Image:

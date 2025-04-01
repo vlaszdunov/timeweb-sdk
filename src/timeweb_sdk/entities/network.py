@@ -1,4 +1,4 @@
-from dataclasses import dataclass, Field
+from dataclasses import dataclass
 from typing import Literal
 
 __all__ = ["IPAddress", "Network"]
@@ -27,7 +27,7 @@ class Network:
     type: str
     nat_mode: str | None
     bandwidth: int | None
-    ips:list[IPAddress]|None
+    ips: list[IPAddress] | None
     ddos_guard_enabled: bool
     blocked_ports: list[int]
 
@@ -37,6 +37,6 @@ class Network:
         self.type = validated_data["type"]
         self.nat_mode = validated_data["nat_mode"]
         self.bandwidth = validated_data["bandwidth"]
-        self.ips=[IPAddress(**ips) for ips in kwargs["ips"]]
+        self.ips = [IPAddress(**ips) for ips in kwargs["ips"]]
         self.ddos_guard_enabled = validated_data["ddos_guard_enabled"]
         self.blocked_ports = validated_data["blocked_ports"]

@@ -1,7 +1,7 @@
 import json
 from collections import OrderedDict
 from http.client import HTTPException
-from typing import Optional, Literal
+from typing import Literal
 from timeweb_sdk.utils.exceptions import *
 from timeweb_sdk.utils import BearerAuth
 from httpx import get, post, delete, patch, codes, Response
@@ -15,7 +15,7 @@ class _Base:
         self,
         method: Literal["get", "post", "patch", "delete"],
         endpoint: str,
-        data: dict = Optional[None],
+        data: dict | None = None,
     ) -> dict | HTTPException | None:
         match method:
             case "get":
