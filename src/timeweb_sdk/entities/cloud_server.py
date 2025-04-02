@@ -184,7 +184,7 @@ class CloudServer(_Base):
         return Drive(**response["server_disk"])
 
     def delete_drive(self, drive_id: int):
-        response = self._make_request(
+        self._make_request(
             "delete",
             f"{self.__base_endpoint}/{self.id}/disks/{drive_id}",
         )
@@ -196,3 +196,17 @@ class CloudServer(_Base):
             f"{self.__base_endpoint}/{self.id}/disks/{drive_id}/backups",
             data,
         )
+
+    def change_drive_backup(self, drive_id: int, backup_id: int, comment: str):
+        data = {"comment": comment}
+        return self._make_request(
+            "patch",
+            f"{self.__base_endpoint}/{self.id}/disks/{drive_id}/backups/{backup_id}",
+            data,
+        )
+
+    def delete_drive_backup(self, drive_id: int, backup_id: int):
+        self._make_request("delete", f"{self.__base_endpoint}/disks/{drive_id}/backups/{backup_id}")
+
+    def unmount_iso_and_reboot(self):
+        self._make_request("post", f"{self.__base_endpoint}/{self.id}image-unmount")
