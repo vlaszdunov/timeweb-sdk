@@ -71,7 +71,7 @@ class CloudServer(_Base):
         self.cpu = validated_data["cpu"]
         self.cpu_frequency = validated_data["cpu_frequency"]
         self.ram = validated_data["ram"]
-        self.drives = [Drive(**drive) for drive in validated_data["drives"]]
+        self.drives = [Drive(self.__api_token, self.id, **drive) for drive in validated_data["drives"]]
         self.avatar_id = validated_data["avatar_id"]
         self.vnc_pass = validated_data["vnc_pass"]
         self.root_pass = validated_data["root_pass"]
@@ -165,6 +165,9 @@ class CloudServer(_Base):
         )
         return IPAddress(**response["server_ip"])
 
+    def get_logs(self):
+        return self._make_request("get", f"{self.__base_endpoint}/{self.id}/logs")
+
     def create_drive(self, drive_size: Annotated[int, Ge(5120), Le(512000)]):
         data = {"size": drive_size}
         response = self._make_request(
@@ -173,40 +176,6 @@ class CloudServer(_Base):
             data,
         )
         return Drive(**response["server_disk"])
-
-    def change_drive_size(self, drive_id: int, drive_size: Annotated[int, Ge(5120), Le(512000)]):
-        data = {"size": drive_size}
-        response = self._make_request(
-            "patch",
-            f"{self.__base_endpoint}/{self.id}/disks/{drive_id}",
-            data,
-        )
-        return Drive(**response["server_disk"])
-
-    def delete_drive(self, drive_id: int):
-        self._make_request(
-            "delete",
-            f"{self.__base_endpoint}/{self.id}/disks/{drive_id}",
-        )
-
-    def create_drive_backup(self, drive_id: int, comment: Optional[str]):
-        data = {"comment": comment}
-        return self._make_request(
-            "post",
-            f"{self.__base_endpoint}/{self.id}/disks/{drive_id}/backups",
-            data,
-        )
-
-    def change_drive_backup(self, drive_id: int, backup_id: int, comment: str):
-        data = {"comment": comment}
-        return self._make_request(
-            "patch",
-            f"{self.__base_endpoint}/{self.id}/disks/{drive_id}/backups/{backup_id}",
-            data,
-        )
-
-    def delete_drive_backup(self, drive_id: int, backup_id: int):
-        self._make_request("delete", f"{self.__base_endpoint}/disks/{drive_id}/backups/{backup_id}")
 
     def unmount_iso_and_reboot(self):
         self._make_request("post", f"{self.__base_endpoint}/{self.id}image-unmount")
