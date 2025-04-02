@@ -34,7 +34,6 @@ class CloudServerModel(BaseModel):
     vnc_pass: str
     root_pass: str | None
     image: ImageModel | None
-    is_image_mounted: bool
     networks: List[NetworkModel]
     cloud_init: str | None
     qemu_agent_enabled: bool = Field(alias="is_qemu_agent")

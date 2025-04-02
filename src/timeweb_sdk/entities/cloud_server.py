@@ -42,7 +42,6 @@ class CloudServer(_Base):
     vnc_pass: str
     root_pass: str | None
     image: Any
-    is_image_mounted: bool
     networks: list[Network]
     cloud_init: str | None
     qemu_agent_enabled: bool
@@ -76,7 +75,6 @@ class CloudServer(_Base):
         self.vnc_pass = validated_data["vnc_pass"]
         self.root_pass = validated_data["root_pass"]
         self.image = validated_data["image"]
-        self.is_image_mounted: bool = validated_data["is_image_mounted"]
         self.networks = [Network(**network) for network in validated_data["networks"]]
         self.cloud_init = validated_data["cloud_init"]
         self.qemu_agent_enabled = validated_data["qemu_agent_enabled"]
