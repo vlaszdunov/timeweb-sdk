@@ -6,4 +6,4 @@
 - Treat everyone with kindness.
 
 ## How to Report Violations
-If you see any violations, please contact me at zdunovvl@gmail.com
+If you see any violations, please contact us at zdunovvl@gmail.com
