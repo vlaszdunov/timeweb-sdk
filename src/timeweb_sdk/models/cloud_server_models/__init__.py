@@ -4,6 +4,7 @@ from .software_model import SoftwareModel
 from .os_model import OSModel
 from .drive_model import DriveModel
 from .cloud_server_model import CloudServerModel
+from .backup_model import BackupModel
 
 __all__ = [
     "NetworkModel",
@@ -13,4 +14,5 @@ __all__ = [
     "OSModel",
     "DriveModel",
     "CloudServerModel",
+    "BackupModel",
 ]

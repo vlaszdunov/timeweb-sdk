@@ -1,9 +1,11 @@
-from typing import Annotated, Optional
+from http.client import responses
+from typing import Annotated, Optional, Literal
 
 from annotated_types import Ge, Le
 
 from timeweb_sdk.utils._base import _Base
 from timeweb_sdk.models import DriveModel
+from .backup import Backup
 
 __all__ = ["Drive"]
 
@@ -45,7 +47,7 @@ class Drive(_Base):
             f"{self.__base_endpoint}/{self.server_id}/disks/{self.id}",
             data,
         )
-        return Drive(**response["server_disk"])
+        return Drive(self.__api_token, self.server_id, **response["server_disk"])
 
     def delete(self):
         self._make_request(
@@ -53,24 +55,25 @@ class Drive(_Base):
             f"{self.__base_endpoint}/{self.server_id}/disks/{self.id}",
         )
 
+    def get_all_backups(self):
+        response = self._make_request(
+            "get",
+            f"{self.__base_endpoint}/{self.server_id}/disks/{self.id}/backups",
+        )
+        backups = [Backup(self.__api_token, self.server_id, self.id, **backup) for backup in response["backups"]]
+        return backups
+
     def create_backup(self, drive_id: int, comment: Optional[str]):
         data = {"comment": comment}
-        return self._make_request(
+        response = self._make_request(
             "post",
             f"{self.__base_endpoint}/{self.server_id}/disks/{self.id}/backups",
             data,
         )
+        return Backup(self.__api_token, self.server_id, **response["backup"])
 
-    def change_backup(self, backup_id: int, comment: str):
-        data = {"comment": comment}
+    def get_autobackup_settings(self):
         return self._make_request(
-            "patch",
-            f"{self.__base_endpoint}/{self.server_id}/disks/{self.id}/backups/{backup_id}",
-            data,
-        )
-
-    def delete_backup(self, backup_id: int):
-        self._make_request(
-            "delete",
-            f"{self.__base_endpoint}/{self.server_id}//disks/{self.id}/backups/{backup_id}",
+            "get",
+            f"{self.__base_endpoint}/{self.server_id}/disks/{self.id}/auto-backups",
         )
