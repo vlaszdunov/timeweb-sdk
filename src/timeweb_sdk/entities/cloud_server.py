@@ -49,6 +49,7 @@ class CloudServer(_Base):
 
     def __init__(self, api_token: str, **kwargs):
         validated_data = CloudServerModel(**kwargs).model_dump()
+        self.__api_token = api_token
         super().__init__(api_token)
 
         self.id = validated_data["id"]
