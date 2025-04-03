@@ -8,8 +8,8 @@ from httpx import get, post, delete, patch, codes, Response
 
 
 class _Base:
-    def __init__(self, access_token):
-        self.__access_token = access_token
+    def __init__(self, api_token):
+        self.__api_token = api_token
 
     def _make_request(
         self,
@@ -50,7 +50,7 @@ class _Base:
     def __get(self, endpoint) -> Response:
         response = get(
             url=endpoint,
-            auth=BearerAuth(self.__access_token),
+            auth=BearerAuth(self.__api_token),
             headers={"Content-Type": "application/json"},
         )
         return response
@@ -59,7 +59,7 @@ class _Base:
         response = post(
             url=endpoint,
             json=data,
-            auth=BearerAuth(self.__access_token),
+            auth=BearerAuth(self.__api_token),
             headers={"Content-Type": "application/json"},
         )
         return response
@@ -68,7 +68,7 @@ class _Base:
         response = patch(
             url=endpoint,
             json=data,
-            auth=BearerAuth(self.__access_token),
+            auth=BearerAuth(self.__api_token),
             headers={"Content-Type": "application/json"},
         )
         return response
@@ -76,7 +76,7 @@ class _Base:
     def __delete(self, endpoint) -> Response:
         response = delete(
             url=endpoint,
-            auth=BearerAuth(self.__access_token),
+            auth=BearerAuth(self.__api_token),
             headers={"Content-Type": "application/json"},
         )
         return response

@@ -1,0 +1,81 @@
+{
+  "servers": [
+    {
+      "_Base__api_token": "<API_TOKEN>",
+      "_CloudServer__api_token": "<API_TOKEN>",
+      "id": 1,
+      "name": "Cute Quail",
+      "comment": "Development Server",
+      "creation_time": "2021-02-25T11:04:15Z",
+      "os": {
+        "id": 1,
+        "name": "bitrix",
+        "version": "18.04"
+      },
+      "software": {
+        "id": 1,
+        "name": "name"
+      },
+      "preset_id": 11,
+      "location": "ru-1",
+      "configurator_id": 11,
+      "boot_mode": "std",
+      "status": "on",
+      "start_time": "2022-10-25T15:15:45.000Z",
+      "ddos_guard_enabled": false,
+      "support_ssh": false,
+      "is_dedicated_cpu": false,
+      "gpu": 16,
+      "cpu": 16,
+      "cpu_frequency": "3.3",
+      "ram": 2048,
+      "drives": [
+        {
+          "_Base__api_token": "<API_TOKEN>",
+          "_Drive__api_token": "<API_TOKEN>",
+          "server_id": 1,
+          "id": 1,
+          "size": 10240,
+          "used": 5120,
+          "type": "nvme",
+          "is_mounted": true,
+          "is_system": true,
+          "system_name": "vda",
+          "status": "done"
+        }
+      ],
+      "avatar_id": "avatar",
+      "avatar_link": "https://urltoimage.com/avatars/image.png",
+      "vnc_pass": "password",
+      "root_pass": "password",
+      "image": {
+        "id": "550e8400-e29b-41d4-a716-446655440000",
+        "name": "image_name",
+        "is_custom": true
+      },
+      "networks": [
+        {
+          "id": "network-1a627c44a3b34e10b6c19f72e50ce843",
+          "type": "public",
+          "nat_mode": "dnat_and_snat",
+          "bandwidth": 200,
+          "ips": [
+            {
+              "type": "ipv4",
+              "ip": "0.0.0.0",
+              "ptr": "ptr",
+              "is_main": true
+            }
+          ],
+          "ddos_guard_enabled": false,
+          "blocked_ports": [
+            25
+          ]
+        }
+      ],
+      "cloud_init": "#cloud-config",
+      "qemu_agent_enabled": true,
+      "availability_zone": "spb-1"
+    }
+  ]
+}

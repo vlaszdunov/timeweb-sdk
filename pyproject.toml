@@ -26,6 +26,7 @@ requires-poetry = ">=2.0"
 ruff = "^0.9.10"
 pytest = "^8.3.5"
 respx = "^0.22.0"
+pytest-cov = "^6.1.0"
 
 [tool.ruff]
 indent-width = 4
@@ -44,6 +45,12 @@ skip-magic-trailing-comma = false
 
 [tool.ruff.lint]
 ignore=["F403","F405"]
+
+[tool.pytest.ini_options]
+pythonpath = "src"
+testpaths = ["tests"]
+addopts = ["--cov=timeweb_sdk", "--cov-report=xml"]
+required_plugins = ["pytest-cov"]
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

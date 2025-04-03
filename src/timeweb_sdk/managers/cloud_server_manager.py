@@ -1,17 +1,14 @@
 from timeweb_sdk.utils._base import _Base
 from timeweb_sdk.entities import CloudServer
-from typing import Literal, Annotated, Optional
-from annotated_types import Ge, Le
-from warnings import deprecated
 
 
 class CloudServerManager(_Base):
     __root_url = "https://api.timeweb.cloud/api/v1"
     __base_endpoint = f"{__root_url}/servers"
 
-    def __init__(self, access_token):
-        super().__init__(access_token)
-        self.__access_token = access_token
+    def __init__(self, api_token):
+        super().__init__(api_token)
+        self.__api_token = api_token
 
     def get_list_of_servers(self) -> list[CloudServer]:
         response = self._make_request(
@@ -20,7 +17,7 @@ class CloudServerManager(_Base):
         )
         list_of_servers = []
         for server in response["servers"]:
-            list_of_servers.append(CloudServer(self.__access_token, **server))
+            list_of_servers.append(CloudServer(self.__api_token, **server))
         return list_of_servers
 
     def get_server_by_id(self, server_id: int) -> CloudServer:
@@ -28,7 +25,7 @@ class CloudServerManager(_Base):
             "get",
             f"{self.__base_endpoint}/{server_id}",
         )
-        return CloudServer(self.__access_token, **response["server"])
+        return CloudServer(self.__api_token, **response["server"])
 
     def get_os(self):
         return self._make_request(

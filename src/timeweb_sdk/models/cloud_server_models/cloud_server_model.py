@@ -30,7 +30,8 @@ class CloudServerModel(BaseModel):
     cpu_frequency: str
     ram: int
     drives: List[DriveModel] = Field(alias="disks")
-    avatar_id: str | None
+    avatar_id:str|None
+    avatar_link: str | None
     vnc_pass: str
     root_pass: str | None
     image: ImageModel | None
