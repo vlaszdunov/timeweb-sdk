@@ -10,7 +10,7 @@ class CloudServerManager(_Base):
         super().__init__(api_token)
         self.__api_token = api_token
 
-    def get_list_of_servers(self) -> list[CloudServer]:
+    def get_all_servers(self) -> list[CloudServer]:
         response = self._make_request(
             "get",
             self.__base_endpoint,

@@ -23,7 +23,7 @@ def timeweb_mocked_api():
 
 
 def test_get_all_servers(timeweb_mocked_api):
-    response = server_manager.get_list_of_servers()
+    response = server_manager.get_all_servers()
 
     response[0] = response[0].__dict__
     response[0]["drives"][0] = response[0]["drives"][0].__dict__
