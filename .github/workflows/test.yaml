@@ -17,14 +17,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Poetry
+        uses: Gr1N/setup-poetry@v9
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           cache: "poetry"
           python-version: '3.13'
-
-      - name: Setup Poetry
-        uses: Gr1N/setup-poetry@v9
 
       - name: Install dependencies
         run: poetry install
