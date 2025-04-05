@@ -38,11 +38,12 @@ class CloudServer(_Base):
     cpu_frequency: str
     ram: int
     drives: list[Drive]
-    avatar_id:str|None
+    avatar_id: str | None
     avatar_link: str | None
     vnc_pass: str
     root_pass: str | None
     image: Any
+    is_image_mounted: bool
     networks: list[Network]
     cloud_init: str | None
     qemu_agent_enabled: bool
@@ -73,11 +74,12 @@ class CloudServer(_Base):
         self.cpu_frequency = validated_data["cpu_frequency"]
         self.ram = validated_data["ram"]
         self.drives = [Drive(self.__api_token, self.id, **drive) for drive in validated_data["drives"]]
-        self.avatar_id=validated_data["avatar_id"]
+        self.avatar_id = validated_data["avatar_id"]
         self.avatar_link = validated_data["avatar_link"]
         self.vnc_pass = validated_data["vnc_pass"]
         self.root_pass = validated_data["root_pass"]
         self.image = validated_data["image"]
+        self.is_image_mounted = validated_data["is_image_mounted"]
         self.networks = [Network(**network) for network in validated_data["networks"]]
         self.cloud_init = validated_data["cloud_init"]
         self.qemu_agent_enabled = validated_data["qemu_agent_enabled"]

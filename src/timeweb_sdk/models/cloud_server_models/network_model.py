@@ -17,5 +17,4 @@ class NetworkModel(BaseModel):
     nat_mode: Literal["dnat_and_snat", "snat", "no_nat"] | None = Field(default=None)
     bandwidth: int = Field(default=None)
     ips: List[IPAddressModel]
-    ddos_guard_enabled: bool = Field(default=None, alias="is_ddos_guard")
     blocked_ports: List[int] = Field(default=None)

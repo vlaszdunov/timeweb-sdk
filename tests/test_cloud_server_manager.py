@@ -1,17 +1,17 @@
-import re
 import pytest
 import respx
 import json
 from httpx import Response
 from timeweb_sdk.managers import CloudServerManager
-from timeweb_sdk.entities import CloudServer
 from pathlib import Path
+
 TEST_API_TOKEN = "<API_TOKEN>"
 
-list_of_servers_response=json.load(Path("./test_data/get_all_servers_response.json").open(encoding="utf-8"))
-list_of_servers=json.load(Path("./test_data/get_all_servers_eq.json").open(encoding="utf-8"))
+list_of_servers_response = json.load(Path("tests/test_data/get_all_servers_response.json").open(encoding="utf-8"))
+list_of_servers = json.load(Path("tests/test_data/get_all_servers_eq.json").open(encoding="utf-8"))
 
 server_manager = CloudServerManager(TEST_API_TOKEN)
+
 
 @pytest.fixture
 def timeweb_mocked_api():
@@ -23,24 +23,15 @@ def timeweb_mocked_api():
 
 
 def test_get_all_servers(timeweb_mocked_api):
-
     response = server_manager.get_list_of_servers()
-    expected_servers = [CloudServer(TEST_API_TOKEN, **server) for server in list_of_servers_response["servers"]]
 
-    response_servers = []
-    for server in response:
-        server_dict = server.__dict__.copy()
+    response[0] = response[0].__dict__
+    response[0]["drives"][0] = response[0]["drives"][0].__dict__
+    response[0]["software"] = response[0]["software"].__dict__
+    response[0]["networks"][0] = response[0]["networks"][0].__dict__
+    response[0]["networks"][0]["ips"][0] = response[0]["networks"][0]["ips"][0].__dict__
+    response[0]["os"] = response[0]["os"].__dict__
 
-        # Convert any nested objects to dicts if needed
-        for key, value in server_dict.items():
-            if hasattr(value, '__dict__'):
-                server_dict[key] = value.__dict__
-            elif isinstance(value, list):
-                for item in value:
-                    if hasattr(item, '__dict__'):
-                        server_dict[key] = item.__dict__
-        response_servers.append(server_dict)
-    #
-    print(*response[0].drives)
     assert timeweb_mocked_api["get_list_of_servers"].called
-    # assert response_servers == list_of_servers["servers"]
+    assert len(response) == len(list_of_servers_response["servers"])
+    assert response == list_of_servers["servers"]

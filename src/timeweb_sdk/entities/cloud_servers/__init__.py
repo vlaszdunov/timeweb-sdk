@@ -4,7 +4,6 @@ from .software import Software
 from .network import Network, IPAddress
 from .os import OS
 from .image import Image
-from .drive import Drive
 
 __all__ = [
     "CloudServer",

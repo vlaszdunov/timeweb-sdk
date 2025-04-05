@@ -28,7 +28,6 @@ class Network:
     nat_mode: str | None
     bandwidth: int | None
     ips: list[IPAddress] | None
-    ddos_guard_enabled: bool
     blocked_ports: list[int]
 
     def __init__(self, **kwargs):
@@ -38,5 +37,4 @@ class Network:
         self.nat_mode = validated_data["nat_mode"]
         self.bandwidth = validated_data["bandwidth"]
         self.ips = [IPAddress(**ips) for ips in kwargs["ips"]]
-        self.ddos_guard_enabled = validated_data["ddos_guard_enabled"]
         self.blocked_ports = validated_data["blocked_ports"]

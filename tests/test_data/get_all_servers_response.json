@@ -51,6 +51,7 @@
         "name": "image_name",
         "is_custom": true
       },
+      "is_image_mounted":true,
       "networks": [
         {
           "id": "network-1a627c44a3b34e10b6c19f72e50ce843",
@@ -65,8 +66,6 @@
               "is_main": true
             }
           ],
-          "is_ddos_guard": false,
-          "is_image_mounted": false,
           "blocked_ports": [
             25
           ]

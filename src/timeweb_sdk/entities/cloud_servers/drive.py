@@ -1,5 +1,4 @@
-from http.client import responses
-from typing import Annotated, Optional, Literal
+from typing import Annotated, Optional
 
 from annotated_types import Ge, Le
 
