@@ -2,7 +2,7 @@ from .cloud_server import CloudServer
 from .drive import Drive
 from .software import Software
 from .network import Network, IPAddress
-from .os import OS
+from .os import OS, OSRequirements
 from .image import Image
 
 __all__ = [
@@ -12,6 +12,7 @@ __all__ = [
     "Network",
     "IPAddress",
     "OS",
+    "OSRequirements",
     "Image",
     "Drive",
 ]

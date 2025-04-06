@@ -76,4 +76,4 @@ jobs:
         with:
           name: ${{ matrix.type }}-${{ needs.run-tests.outputs.version }}
           path: |
-            ${{ matrix.type == 'wheel' && 'dist/*.whl' || 'dist/*.tar.gz' }}
+            ${{ matrix.type == 'wheel' && '*.whl' || '*.tar.gz' }}

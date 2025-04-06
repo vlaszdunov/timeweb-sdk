@@ -9,8 +9,12 @@
       "creation_time": "2021-02-25T11:04:15Z",
       "os": {
         "id": 1,
+        "family": null,
         "name": "bitrix",
-        "version": "18.04"
+        "version": "18.04",
+        "version_codename":null,
+        "description":null,
+        "requirements":null
       },
       "software": {
         "id": 1,

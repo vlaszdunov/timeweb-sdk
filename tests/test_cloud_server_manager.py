@@ -14,6 +14,9 @@ list_of_servers_correct = json.load(Path("tests/test_data/get_all_servers/correc
 server_response = json.load(Path("tests/test_data/get_server_by_id/response.json").open(encoding="utf-8"))
 server_correct = json.load(Path("tests/test_data/get_server_by_id/correct.json").open(encoding="utf-8"))
 
+os_list_response = json.load(Path("tests/test_data/get_os/response.json").open(encoding="utf-8"))
+os_list_correct = json.load(Path("tests/test_data/get_os/correct.json").open(encoding="utf-8"))
+
 server_manager = CloudServerManager(TEST_API_TOKEN)
 
 
@@ -23,9 +26,11 @@ def timeweb_mocked_api():
         server_list_route = respx_mock.get("/servers", name="get_list_of_servers")
         server_list_route.return_value = Response(200, json=list_of_servers_response)
 
-        server_by_id = respx_mock.get(re.compile(r"/servers/\d+"), name="get_server_by_id")
-        server_by_id.return_value = Response(200, json=server_response)
+        server_by_id_route = respx_mock.get(re.compile(r"/servers/\d+"), name="get_server_by_id")
+        server_by_id_route.return_value = Response(200, json=server_response)
 
+        os_list_route = respx_mock.get("/os/servers", name="get_os")
+        os_list_route.return_value = Response(200, json=os_list_response)
         yield respx_mock
 
 
@@ -56,3 +61,13 @@ def test_server_by_id(timeweb_mocked_api):
 
     assert timeweb_mocked_api["get_server_by_id"].called
     assert response == server_correct["server"]
+
+
+def test_get_os(timeweb_mocked_api):
+    response = server_manager.get_os()
+
+    response[0] = response[0].__dict__
+    response[0]["requirements"] = response[0]["requirements"].__dict__
+
+    assert timeweb_mocked_api["get_os"].called
+    assert response == os_list_correct["servers_os"]

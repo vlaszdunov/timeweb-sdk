@@ -1,0 +1,18 @@
+{
+  "servers_os": [
+    {
+      "id": 2377,
+      "family": "linux",
+      "name": "debian",
+      "version": "6.0",
+      "version_codename": "squeeze",
+      "description": "",
+      "requirements": {
+        "cpu_min": 2,
+        "drive_min": 200,
+        "ram_min": 4,
+        "bandwidth_min": 100
+      }
+    }
+  ]
+}
