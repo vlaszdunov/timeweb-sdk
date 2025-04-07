@@ -4,6 +4,7 @@ from .software import Software
 from .network import Network, IPAddress
 from .os import OS, OSRequirements
 from .image import Image
+from .server_preset import ServerPreset
 
 __all__ = [
     "CloudServer",
@@ -15,4 +16,5 @@ __all__ = [
     "OSRequirements",
     "Image",
     "Drive",
+    "ServerPreset",
 ]

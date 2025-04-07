@@ -1,5 +1,5 @@
 from timeweb_sdk.utils._base import _Base
-from timeweb_sdk.entities import CloudServer, OS
+from timeweb_sdk.entities import CloudServer, OS, ServerPreset
 
 
 class CloudServerManager(_Base):
@@ -38,10 +38,14 @@ class CloudServerManager(_Base):
         return list_of_os
 
     def get_server_presets(self):
-        return self._make_request(
+        response = self._make_request(
             "get",
             f"{self.__root_url}/presets/servers",
         )
+        list_of_server_presets = []
+        for preset in response["server_presets"]:
+            list_of_server_presets.append(ServerPreset(**preset))
+        return list_of_server_presets
 
     def get_server_configs(self):
         return self._make_request(

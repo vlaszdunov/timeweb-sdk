@@ -1,0 +1,21 @@
+{
+  "server_presets": [
+    {
+      "id": 2377,
+      "location": "ru-1",
+      "price": 199,
+      "cpu": 1,
+      "cpu_frequency": "3.3",
+      "ram": 1024,
+      "disk": 15360,
+      "disk_type": "nvme",
+      "bandwidth": 200,
+      "description": "description",
+      "description_short": "description_short",
+      "local_network_allowed": false,
+      "tags": [
+        "string"
+      ]
+    }
+  ]
+}

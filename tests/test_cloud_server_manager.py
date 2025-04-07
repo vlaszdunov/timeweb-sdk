@@ -17,6 +17,9 @@ server_correct = json.load(Path("tests/test_data/get_server_by_id/correct.json")
 os_list_response = json.load(Path("tests/test_data/get_os/response.json").open(encoding="utf-8"))
 os_list_correct = json.load(Path("tests/test_data/get_os/correct.json").open(encoding="utf-8"))
 
+presets_list_response = json.load(Path("tests/test_data/get_server_presets/response.json").open(encoding="utf-8"))
+presets_list_correct = json.load(Path("tests/test_data/get_server_presets/correct.json").open(encoding="utf-8"))
+
 server_manager = CloudServerManager(TEST_API_TOKEN)
 
 
@@ -31,6 +34,9 @@ def timeweb_mocked_api():
 
         os_list_route = respx_mock.get("/os/servers", name="get_os")
         os_list_route.return_value = Response(200, json=os_list_response)
+
+        presets_list_route = respx_mock.get("/presets/servers", name="get_server_presets")
+        presets_list_route.return_value = Response(200, json=presets_list_response)
         yield respx_mock
 
 
@@ -71,3 +77,12 @@ def test_get_os(timeweb_mocked_api):
 
     assert timeweb_mocked_api["get_os"].called
     assert response == os_list_correct["servers_os"]
+
+
+def test_get_server_presets(timeweb_mocked_api):
+    response = server_manager.get_server_presets()
+    for i in range(len(response)):
+        response[i] = response[i].__dict__
+
+    assert timeweb_mocked_api["get_server_presets"].called
+    assert response == presets_list_correct["server_presets"]
