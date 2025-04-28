@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "total": 10
+  },
+  "server_configurators": [
+    {
+      "id": 3,
+      "location": "ru-1",
+      "disk_type": "nvme",
+      "is_allowed_local_network": true,
+      "cpu_frequency": "3.3",
+      "requirements": {
+        "cpu_min": 1,
+        "cpu_step": 1,
+        "cpu_max": 12,
+        "ram_min": 1024,
+        "ram_step": 1024,
+        "ram_max": 8192,
+        "disk_min": 10240,
+        "disk_step": 1024,
+        "disk_max": 30720,
+        "network_bandwidth_min": 200,
+        "network_bandwidth_step": 100,
+        "network_bandwidth_max": 1000,
+        "gpu_min": 1,
+        "gpu_max": 4,
+        "gpu_step": 1
+      }
+    }
+  ],
+  "response_id": "15095f25-aac3-4d60-a788-96cb5136f186"
+}

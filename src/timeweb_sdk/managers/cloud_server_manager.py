@@ -1,5 +1,6 @@
+from timeweb_sdk.models import SoftwareModel
 from timeweb_sdk.utils._base import _Base
-from timeweb_sdk.entities import CloudServer, OS, ServerPreset
+from timeweb_sdk.entities import CloudServer, OS, ServerPreset, ServerConfig, Software
 
 
 class CloudServerManager(_Base):
@@ -48,13 +49,21 @@ class CloudServerManager(_Base):
         return list_of_server_presets
 
     def get_server_configs(self):
-        return self._make_request(
+        response = self._make_request(
             "get",
             f"{self.__root_url}/configurator/servers",
         )
+        list_of_configs = []
+        for config in response["server_configurators"]:
+            list_of_configs.append(ServerConfig(**config))
+        return list_of_configs
 
     def get_available_software(self):
-        return self._make_request(
+        response = self._make_request(
             "get",
             f"{self.__root_url}/software/servers",
         )
+        list_of_software = []
+        for software in response["servers_software"]:
+            list_of_software.append(Software(**software))
+        return list_of_software

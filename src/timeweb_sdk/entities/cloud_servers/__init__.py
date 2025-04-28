@@ -1,5 +1,6 @@
 from .cloud_server import CloudServer
 from .drive import Drive
+from .server_config import ServerConfig
 from .software import Software
 from .network import Network, IPAddress
 from .os import OS, OSRequirements
@@ -17,4 +18,5 @@ __all__ = [
     "Image",
     "Drive",
     "ServerPreset",
+    "ServerConfig",
 ]

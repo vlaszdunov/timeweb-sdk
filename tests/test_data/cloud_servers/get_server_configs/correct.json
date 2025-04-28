@@ -1,0 +1,30 @@
+{
+  "server_configurators": [
+    {
+      "id": 3,
+      "location": "ru-1",
+      "drive_type": "nvme",
+      "is_allowed_local_network": true,
+      "cpu_frequency": "3.3",
+      "tags": null,
+      "prices": null,
+      "requirements": {
+        "cpu_min": 1,
+        "cpu_step": 1,
+        "cpu_max": 12,
+        "ram_min": 1024,
+        "ram_step": 1024,
+        "ram_max": 8192,
+        "drive_min": 10240,
+        "drive_step": 1024,
+        "drive_max": 30720,
+        "network_bandwidth_min": 200,
+        "network_bandwidth_step": 100,
+        "network_bandwidth_max": 1000,
+        "gpu_min": 1,
+        "gpu_max": 4,
+        "gpu_step": 1
+      }
+    }
+  ]
+}

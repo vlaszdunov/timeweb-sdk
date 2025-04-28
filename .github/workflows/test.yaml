@@ -12,6 +12,8 @@ jobs:
 
     outputs:
       version: ${{ steps.get-version.outputs.version }}
+      wheel_path: ${{ steps.collect-dist.outputs.wheel }}
+      sdist_path: ${{ steps.collect-dist.outputs.sdist }}
 
     steps:
       - name: Checkout
@@ -51,11 +53,16 @@ jobs:
       - name: Build package
         run: poetry build
 
-      - name: Upload dist/ for later jobs
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist
-          path: dist/
+      - name: Collect dist paths
+        id: collect-dist
+        run: |
+          wheel=$(echo dist/*.whl)
+          sdist=$(echo dist/*.tar.gz)
+          echo "wheel=$wheel" >> "$GITHUB_OUTPUT"
+          echo "sdist=$sdist" >> "$GITHUB_OUTPUT"
+
+      - name: Cleanup dist/
+        run: rm -rf dist/
 
   upload-artifacts:
     needs: run-tests
@@ -63,17 +70,11 @@ jobs:
 
     strategy:
       matrix:
-        type: [wheel, sdist]
+        type: [ wheel, sdist ]
 
     steps:
-      - name: Download built dist/
-        uses: actions/download-artifact@v4
-        with:
-          name: dist
-
-      - name: Upload ${{ matrix.type }} with version
+      - name: Upload ${{ matrix.type }}
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.type }}-${{ needs.run-tests.outputs.version }}
-          path: |
-            ${{ matrix.type == 'wheel' && '*.whl' || '*.tar.gz' }}
+          path: ${{ matrix.type == 'wheel' && needs.run-tests.outputs.wheel_path || needs.run-tests.outputs.sdist_path }}

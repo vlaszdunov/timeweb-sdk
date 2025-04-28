@@ -6,6 +6,7 @@ from .drive_model import DriveModel
 from .cloud_server_model import CloudServerModel
 from .backup_model import BackupModel
 from .server_preset import ServerPresetModel
+from .server_config_model import ServerConfigModel
 
 __all__ = [
     "NetworkModel",
@@ -18,4 +19,5 @@ __all__ = [
     "CloudServerModel",
     "BackupModel",
     "ServerPresetModel",
+    "ServerConfigModel",
 ]

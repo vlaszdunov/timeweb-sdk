@@ -33,7 +33,7 @@ class _Base:
             case codes.OK | codes.CREATED:
                 return json.loads(response.text, object_hook=lambda pairs: OrderedDict(pairs))
             case codes.NO_CONTENT:
-                pass
+                return None
             case codes.BAD_REQUEST:
                 raise HTTPBadRequestError(response.json()["message"])
             case codes.UNAUTHORIZED:
@@ -46,6 +46,7 @@ class _Base:
                 raise HTTPTooManyRequestsError(response.json()["message"])
             case codes.INTERNAL_SERVER_ERROR:
                 raise HTTPInternalServerError(response.json()["message"])
+        return None
 
     def __get(self, endpoint) -> Response:
         response = get(
