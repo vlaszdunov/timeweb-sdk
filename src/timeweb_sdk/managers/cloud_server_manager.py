@@ -1,4 +1,3 @@
-from timeweb_sdk.models import SoftwareModel
 from timeweb_sdk.utils._base import _Base
 from timeweb_sdk.entities import CloudServer, OS, ServerPreset, ServerConfig, Software
 

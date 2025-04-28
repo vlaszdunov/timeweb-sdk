@@ -3,7 +3,7 @@ from httpx import Response
 import re
 
 from timeweb_sdk.managers import CloudServerManager
-from conftest import timeweb_mocked_api, load_response_data, load_correct_data, check_request_headers
+from conftest import load_response_data, load_correct_data, check_request_headers
 
 TEST_API_TOKEN = "<API_TOKEN>"
 server_manager = CloudServerManager(TEST_API_TOKEN)
