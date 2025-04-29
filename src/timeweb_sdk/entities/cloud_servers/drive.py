@@ -62,7 +62,7 @@ class Drive(_Base):
         backups = [Backup(self.__api_token, self.server_id, self.id, **backup) for backup in response["backups"]]
         return backups
 
-    def create_backup(self, drive_id: int, comment: Optional[str]):
+    def create_backup(self, comment: Optional[str]):
         data = {"comment": comment}
         response = self._make_request(
             "post",

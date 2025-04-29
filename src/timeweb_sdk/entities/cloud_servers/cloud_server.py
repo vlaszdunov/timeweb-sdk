@@ -99,7 +99,7 @@ class CloudServer(_Base):
 
     def clone(self):
         response = self._make_request("post", f"{self.__base_endpoint}/{self.id}/clone")
-        return CloudServer(self.__access_token, **response["server"])
+        return CloudServer(self.__api_token, **response["server"])
 
     def reset_password(self):
         self._make_request("post", f"{self.__base_endpoint}/{self.id}/reset-password")
