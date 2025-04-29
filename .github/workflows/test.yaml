@@ -12,8 +12,6 @@ jobs:
 
     outputs:
       version: ${{ steps.get-version.outputs.version }}
-      wheel_path: ${{ steps.collect-dist.outputs.wheel }}
-      sdist_path: ${{ steps.collect-dist.outputs.sdist }}
 
     steps:
       - name: Checkout
@@ -53,28 +51,21 @@ jobs:
       - name: Build package
         run: poetry build
 
-      - name: Collect dist paths
-        id: collect-dist
-        run: |
-          wheel=$(echo dist/*.whl)
-          sdist=$(echo dist/*.tar.gz)
-          echo "wheel=$wheel" >> "$GITHUB_OUTPUT"
-          echo "sdist=$sdist" >> "$GITHUB_OUTPUT"
+      - name: Get package version
+        id: get-version
+        run: echo "version=$(poetry version -s)" >> $GITHUB_OUTPUT
 
-      - name: Cleanup dist/
-        run: rm -rf dist/
+      - name: Build package
+        run: poetry build
 
-  upload-artifacts:
-    needs: run-tests
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        type: [ wheel, sdist ]
-
-    steps:
-      - name: Upload ${{ matrix.type }}
+      - name: Upload wheel
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.type }}-${{ needs.run-tests.outputs.version }}
-          path: ${{ matrix.type == 'wheel' && needs.run-tests.outputs.wheel_path || needs.run-tests.outputs.sdist_path }}
+          name: wheel-${{ steps.get-version.outputs.version }}
+          path: dist/*.whl
+
+      - name: Upload sdist
+        uses: actions/upload-artifact@v4
+        with:
+          name: sdist-${{ steps.get-version.outputs.version }}
+          path: dist/*.tar.gz
