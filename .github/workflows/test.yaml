@@ -51,10 +51,6 @@ jobs:
       - name: Build package
         run: poetry build
 
-      - name: Get package version
-        id: get-version
-        run: echo "version=$(poetry version -s)" >> $GITHUB_OUTPUT
-
       - name: Build package
         run: poetry build
 
