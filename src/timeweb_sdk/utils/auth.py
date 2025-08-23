@@ -1,7 +1,9 @@
-from httpx import Auth as __Auth
+from httpx import Auth
+
+__all__ = ["BearerAuth"]
 
 
-class BearerAuth(__Auth):
+class BearerAuth(Auth):
     def __init__(self, token: str):
         self.token = token
 
