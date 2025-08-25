@@ -16,9 +16,6 @@ class TimewebCloudClient:
         cloud_server_manager (CloudServerManager): Cloud server manager
     """
 
-    __access_token: str
-    cloud_server_manager: CloudServerManager
-
     def __init__(self, access_token: str) -> None:
         self.__client = BaseClient(access_token)
         self.cloud_server_manager = CloudServerManager(client=self.__client)
