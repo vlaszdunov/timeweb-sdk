@@ -2,18 +2,14 @@ from typing import Annotated, Optional
 
 from annotated_types import Ge, Le
 
-from timeweb_sdk.utils._base import _Base
+from timeweb_sdk.utils.base_client import BaseClient
 from timeweb_sdk.models import DriveModel
 from .backup import Backup
 
 __all__ = ["Drive"]
 
 
-class Drive(_Base):
-    __root_url = "https://api.timeweb.cloud/api/v1"
-    __base_endpoint = f"{__root_url}/servers"
-    __api_token: str
-
+class Drive:
     id: int
     server_id: int
     size: int
@@ -24,11 +20,10 @@ class Drive(_Base):
     system_name: str
     status: str
 
-    def __init__(self, api_token: str, server_id: int, **kwargs):
+    def __init__(self, client:BaseClient,server_id:int, **kwargs):
         validated_data = DriveModel(**kwargs).model_dump()
-        super().__init__(api_token)
+        self.__client=client
 
-        self.__api_token = api_token
         self.id = validated_data["id"]
         self.server_id = server_id
         self.size = validated_data["size"]
@@ -41,38 +36,33 @@ class Drive(_Base):
 
     def change_size(self, drive_size: Annotated[int, Ge(5120), Le(512000)]):
         data = {"size": drive_size}
-        response = self._make_request(
-            "patch",
-            f"{self.__base_endpoint}/{self.server_id}/disks/{self.id}",
+        response = self.__client.patch(
+            f"/servers/{self.server_id}/disks/{self.id}",
             data,
         )
-        return Drive(self.__api_token, self.server_id, **response["server_disk"])
+        return Drive(self.__client, self.server_id, **response["server_disk"])
 
     def delete(self):
-        self._make_request(
-            "delete",
-            f"{self.__base_endpoint}/{self.server_id}/disks/{self.id}",
+        self.__client.delete(
+            f"/servers/{self.server_id}/disks/{self.id}",
         )
 
     def get_all_backups(self):
-        response = self._make_request(
-            "get",
-            f"{self.__base_endpoint}/{self.server_id}/disks/{self.id}/backups",
+        response = self.__client.get(
+            f"/servers/{self.server_id}/disks/{self.id}/backups",
         )
         backups = [Backup(self.__api_token, self.server_id, self.id, **backup) for backup in response["backups"]]
         return backups
 
     def create_backup(self, comment: Optional[str]):
         data = {"comment": comment}
-        response = self._make_request(
-            "post",
-            f"{self.__base_endpoint}/{self.server_id}/disks/{self.id}/backups",
+        response = self.__client.post(
+            f"/servers/{self.server_id}/disks/{self.id}/backups",
             data,
         )
-        return Backup(self.__api_token, self.server_id, **response["backup"])
+        return Backup(self.__client, self.server_id,self.id, **response["backup"])
 
     def get_autobackup_settings(self):
-        return self._make_request(
-            "get",
-            f"{self.__base_endpoint}/{self.server_id}/disks/{self.id}/auto-backups",
+        return self.__client.get(
+            f"/servers/{self.server_id}/disks/{self.id}/auto-backups",
         )
