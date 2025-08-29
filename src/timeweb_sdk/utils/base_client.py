@@ -1,7 +1,7 @@
 import json
 from collections import OrderedDict
 from typing import Any
-
+from httpx import request
 from timeweb_sdk.utils.exceptions import *
 from timeweb_sdk.utils import BearerAuth
 from httpx import Client, Response, codes
@@ -20,7 +20,7 @@ class BaseClient:
         self.__verify_token(access_token)
         self.__client = Client(
             auth=BearerAuth(access_token),
-            base_url="https://access.timeweb.cloud/api/v1",
+            base_url="https://api.timeweb.cloud/api/v1",
             headers={"Content-Type": "application/json"},
             http2=True,
         )
@@ -59,12 +59,19 @@ class BaseClient:
         return response.json()
 
     def post(self, url: str, data: dict | None = None) -> dict:
-        response = self.__client.post(url=url, data=data)
+        response = self.__client.post(url=url, json=data)
         self.__validate_http_response(response)
         return response.json()
 
-    def delete(self, url: str, params: dict | None = None) -> dict:
-        response = self.__client.delete(url=url, params=params)
+    def delete(self, url: str, params: dict | None = None, data: dict | None = None) -> dict:
+        # response = self.__client.delete(url=url, params=params)
+        request = self.__client.build_request("DELETE", url=url, json=data, params=params)
+        response = self.__client.send(request)
+        self.__validate_http_response(response)
+        return response.json()
+
+    def patch(self, url: str, params: dict | None = None, data: dict | None = None) -> dict:
+        response = self.__client.patch(url=url, data=data)
         self.__validate_http_response(response)
         return response.json()
 

@@ -1,5 +1,5 @@
 from httpx import Client
-from utils.base_client import BaseClient
+from .utils.base_client import BaseClient
 
 from .utils import BearerAuth
 from .utils.exceptions import *
@@ -15,6 +15,8 @@ class TimewebCloudClient:
     Attributes:
         cloud_server_manager (CloudServerManager): Cloud server manager
     """
+
+    cloud_server_manager: CloudServerManager
 
     def __init__(self, access_token: str) -> None:
         self.__client = BaseClient(access_token)

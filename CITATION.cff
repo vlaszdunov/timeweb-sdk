@@ -5,6 +5,7 @@ type: software
 authors:
   - given-names: Vlas
     family-names: Zdunov
+    orcid: 'https://orcid.org/0009-0005-5051-7221'
 repository-code: 'https://github.com/vlaszdunov/timeweb-sdk'
 keywords:
   - python
