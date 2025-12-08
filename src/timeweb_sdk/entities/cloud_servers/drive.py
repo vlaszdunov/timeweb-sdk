@@ -20,9 +20,9 @@ class Drive:
     system_name: str
     status: str
 
-    def __init__(self, client:BaseClient,server_id:int, **kwargs):
+    def __init__(self, client: BaseClient, server_id: int, **kwargs):
         validated_data = DriveModel(**kwargs).model_dump()
-        self.__client=client
+        self.__client = client
 
         self.id = validated_data["id"]
         self.server_id = server_id
@@ -51,7 +51,10 @@ class Drive:
         response = self.__client.get(
             f"/servers/{self.server_id}/disks/{self.id}/backups",
         )
-        backups = [Backup(self.__api_token, self.server_id, self.id, **backup) for backup in response["backups"]]
+        backups = [
+            Backup(self.__api_token, self.server_id, self.id, **backup)
+            for backup in response["backups"]
+        ]
         return backups
 
     def create_backup(self, comment: Optional[str]):
@@ -60,7 +63,7 @@ class Drive:
             f"/servers/{self.server_id}/disks/{self.id}/backups",
             data,
         )
-        return Backup(self.__client, self.server_id,self.id, **response["backup"])
+        return Backup(self.__client, self.server_id, self.id, **response["backup"])
 
     def get_autobackup_settings(self):
         return self.__client.get(

@@ -54,7 +54,11 @@ class CloudServer:
         self.comment = validated_data["comment"]
         self.creation_time = validated_data["creation_time"]
         self.os = OS(**validated_data["os"])
-        self.software = Software(**validated_data["software"]) if validated_data["software"] is not None else None
+        self.software = (
+            Software(**validated_data["software"])
+            if validated_data["software"] is not None
+            else None
+        )
         self.preset_id = validated_data["preset_id"]
         self.location = validated_data["location"]
         self.configurator_id = validated_data["configurator_id"]
@@ -97,7 +101,10 @@ class CloudServer:
         return CloudServer(self.__client, **response["server"])
 
     def delete(
-        self, hash_code: str | None = None, verification_code: str | None = None, auto_apply_hash_code: bool = False
+        self,
+        hash_code: str | None = None,
+        verification_code: str | None = None,
+        auto_apply_hash_code: bool = False,
     ):
         match auto_apply_hash_code:
             case False:
@@ -174,7 +181,9 @@ class CloudServer:
         )
         return IPAddress(**response["server_ip"])
 
-    def get_logs(self, limit: int = 100, offset: int = 0, order: Literal["asc", "desc"] = "asc"):
+    def get_logs(
+        self, limit: int = 100, offset: int = 0, order: Literal["asc", "desc"] = "asc"
+    ):
         return self.__client.get(
             f"/servers/{self.id}/logs",
             params={"limit": limit, "offset": offset, "order": order},

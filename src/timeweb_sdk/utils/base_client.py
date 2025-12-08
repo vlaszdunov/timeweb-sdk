@@ -50,7 +50,9 @@ class BaseClient:
             )
         except jwt.exceptions.ExpiredSignatureError:
             raise ExpiredAccessTokenError() from None
-        except jwt.exceptions.InvalidTokenError or jwt.exceptions.ImmatureSignatureError:
+        except (
+            jwt.exceptions.InvalidTokenError or jwt.exceptions.ImmatureSignatureError
+        ):
             raise InvalidToken() from None
 
     def get(self, url: str, params: dict | None = None) -> dict:
@@ -63,14 +65,20 @@ class BaseClient:
         self.__validate_http_response(response)
         return response.json()
 
-    def delete(self, url: str, params: dict | None = None, data: dict | None = None) -> dict:
+    def delete(
+        self, url: str, params: dict | None = None, data: dict | None = None
+    ) -> dict:
         # response = self.__client.delete(url=url, params=params)
-        request = self.__client.build_request("DELETE", url=url, json=data, params=params)
+        request = self.__client.build_request(
+            "DELETE", url=url, json=data, params=params
+        )
         response = self.__client.send(request)
         self.__validate_http_response(response)
         return response.json()
 
-    def patch(self, url: str, params: dict | None = None, data: dict | None = None) -> dict:
+    def patch(
+        self, url: str, params: dict | None = None, data: dict | None = None
+    ) -> dict:
         response = self.__client.patch(url=url, data=data)
         self.__validate_http_response(response)
         return response.json()
@@ -78,7 +86,9 @@ class BaseClient:
     def __validate_http_response(self, response: Response) -> Any | None:
         match response.status_code:
             case codes.OK | codes.CREATED:
-                return json.loads(response.text, object_hook=lambda pairs: OrderedDict(pairs))
+                return json.loads(
+                    response.text, object_hook=lambda pairs: OrderedDict(pairs)
+                )
             case codes.NO_CONTENT:
                 return None
             case codes.BAD_REQUEST:

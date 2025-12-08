@@ -51,4 +51,8 @@ class ServerConfig:
         self.is_allowed_local_network = validated_data["is_allowed_local_network"]
         self.tags = validated_data["tags"]
         self.requirements = Requirements(**validated_data["requirements"])
-        self.prices = Price(**validated_data["prices"]) if validated_data["prices"] is not None else None
+        self.prices = (
+            Price(**validated_data["prices"])
+            if validated_data["prices"] is not None
+            else None
+        )

@@ -51,7 +51,9 @@ class CloudServerManager:
             warnings.warn("Deprecated!", DeprecationWarning)
 
         if configuration and preset_id is None:
-            raise ValueError("One of these parameters is required: preset_id, configuration")
+            raise ValueError(
+                "One of these parameters is required: preset_id, configuration"
+            )
         if image_id and os_id is None:
             raise ValueError("One of these parameters is required: image_id, os_id")
         data = {
@@ -65,10 +67,18 @@ class CloudServerManager:
             **({"avatar_id": avatar_id} if avatar_id is not None else {}),
             **({"software_id": software_id} if software_id is not None else {}),
             **({"ssh_keys_id": ssh_keys_id} if ssh_keys_id is not None else {}),
-            **({"is_local_network": is_local_network} if is_local_network is not None else {}),
+            **(
+                {"is_local_network": is_local_network}
+                if is_local_network is not None
+                else {}
+            ),
             **({"is_ddos_guard": is_ddos_guard} if is_ddos_guard is not None else {}),
             **({"network": network} if network is not None else {}),
-            **({"availability_zone": availability_zone} if availability_zone is not None else {}),
+            **(
+                {"availability_zone": availability_zone}
+                if availability_zone is not None
+                else {}
+            ),
             **(
                 {"is_root_password_required": is_root_password_required}
                 if is_root_password_required is not None

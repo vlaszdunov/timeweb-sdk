@@ -14,6 +14,9 @@ dist/
 
 # Tests
 .pytest_cache/
+tests/manual_tests.py
+.coverage
+coverage.xml
 
 # IDE-staff
 *.iws
@@ -28,7 +31,3 @@ dist/
 .idea/**/ruff.xml
 .ruff_cache/
 
-#discord-presense
-.idea/**/discord.xml
-
-tests/manual_tests.py

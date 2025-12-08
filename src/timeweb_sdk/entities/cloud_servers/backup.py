@@ -13,12 +13,14 @@ class Backup:
     name: str
     comment: str
     created_at: str
-    status: Literal["precreate", "delete", "shutdown", "recover", "create", "fail", "done"]
+    status: Literal[
+        "precreate", "delete", "shutdown", "recover", "create", "fail", "done"
+    ]
     size: int
     type: Literal["manual", "auto"]
     progress: int
 
-    def __init__(self, client:BaseClient, server_id: int, drive_id: int, **kwargs):
+    def __init__(self, client: BaseClient, server_id: int, drive_id: int, **kwargs):
         validated_data = BackupModel(**kwargs).model_dump()
         self.__client: BaseClient = client
 
