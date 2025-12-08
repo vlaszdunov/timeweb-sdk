@@ -1,0 +1,66 @@
+[project]
+name = "timeweb-sdk"
+version = "0.1.0"
+description = "Python SDK for Timeweb Cloud API"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "vlaszdunov", email = "zdunovvl@gmail.com" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "annotated-types>=0.7.0",
+    "httpx[http2]>=0.28.1",
+    "pydantic>=2.12.5",
+    "pyjwt>=2.10.1",
+    "uv-build>=0.9.10",
+]
+
+[dependency-groups]
+dev = [
+    {include-group = "lint"},
+    {include-group = "test"}
+]
+lint = [
+    "ruff>=0.14.8",
+    "ty>=0.0.1a32",
+]
+test = [
+    "pytest>=9.0.2",
+    "pytest-cov>=7.0.0",
+    "pytest-xdist[psutil]>=3.8.0",
+    "respx>=0.22.0",
+]
+
+#__________ TOOLS __________
+
+#__________ Ruff config __________
+[tool.ruff]
+indent-width = 4
+line-length = 120
+output-format = "grouped"
+src = ["app"]
+target-version = "py314"
+
+[tool.ruff.format]
+docstring-code-format = true
+docstring-code-line-length = "dynamic"
+indent-style = "space"
+line-ending = "auto"
+skip-magic-trailing-comma = false
+
+[tool.ruff.lint]
+ignore=["F403","F405"]
+
+#__________ Pytest config __________
+[tool.pytest.ini_options]
+pythonpath = "src"
+testpaths = ["tests"]
+addopts = ["--cov=timeweb_sdk", "--cov-report=xml", "-n=logical", "--dist=load"]
+required_plugins = ["pytest-cov","pytest-xdist"]
+
+
+[build-system]
+requires = ["uv_build>=0.9.10,<0.10.0"]
+build-backend = "uv_build"
