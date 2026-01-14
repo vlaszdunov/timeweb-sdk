@@ -49,7 +49,7 @@ class BaseClient:
             )
         except jwt.exceptions.ExpiredSignatureError:
             raise ExpiredAccessTokenError() from None
-        except jwt.exceptions.InvalidTokenError or jwt.exceptions.ImmatureSignatureError:
+        except (jwt.exceptions.InvalidTokenError, jwt.exceptions.ImmatureSignatureError):
             raise InvalidToken() from None
 
     def get(self, url: str, params: dict | None = None) -> dict:
