@@ -51,10 +51,7 @@ class Drive:
         response = self.__client.get(
             f"/servers/{self.server_id}/disks/{self.id}/backups",
         )
-        backups = [
-            Backup(self.__api_token, self.server_id, self.id, **backup)
-            for backup in response["backups"]
-        ]
+        backups = [Backup(self.__api_token, self.server_id, self.id, **backup) for backup in response["backups"]]
         return backups
 
     def create_backup(self, comment: Optional[str]):

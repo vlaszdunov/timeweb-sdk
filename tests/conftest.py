@@ -25,7 +25,5 @@ def check_request_headers(request: MockRouter):
 
 @pytest.fixture(scope="session")
 def timeweb_mocked_api():
-    with respx.mock(
-        base_url="https://api.timeweb.cloud/api/v1", assert_all_called=False
-    ) as respx_mock:
+    with respx.mock(base_url="https://api.timeweb.cloud/api/v1", assert_all_called=False) as respx_mock:
         yield respx_mock

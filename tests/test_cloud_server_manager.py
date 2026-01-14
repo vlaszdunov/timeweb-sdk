@@ -28,30 +28,20 @@ def cloud_servers_mock_api(timeweb_mocked_api):
     server_list_route = timeweb_mocked_api.get("/servers", name="get_list_of_servers")
     server_list_route.return_value = Response(200, json=list_of_servers_response)
 
-    server_by_id_route = timeweb_mocked_api.get(
-        re.compile(r"/servers/\d+"), name="get_server_by_id"
-    )
+    server_by_id_route = timeweb_mocked_api.get(re.compile(r"/servers/\d+"), name="get_server_by_id")
     server_by_id_route.return_value = Response(200, json=server_response)
 
     os_list_route = timeweb_mocked_api.get("/os/servers", name="get_os")
     os_list_route.return_value = Response(200, json=os_list_response)
 
-    presets_list_route = timeweb_mocked_api.get(
-        "/presets/servers", name="get_server_presets"
-    )
+    presets_list_route = timeweb_mocked_api.get("/presets/servers", name="get_server_presets")
     presets_list_route.return_value = Response(200, json=presets_list_response)
 
-    config_list_route = timeweb_mocked_api.get(
-        "/configurator/servers", name="get_server_configs"
-    )
+    config_list_route = timeweb_mocked_api.get("/configurator/servers", name="get_server_configs")
     config_list_route.return_value = Response(200, json=server_configs_response)
 
-    available_software_route = timeweb_mocked_api.get(
-        "/software/servers", name="get_available_software"
-    )
-    available_software_route.return_value = Response(
-        200, json=available_software_response
-    )
+    available_software_route = timeweb_mocked_api.get("/software/servers", name="get_available_software")
+    available_software_route.return_value = Response(200, json=available_software_response)
 
     return timeweb_mocked_api
 

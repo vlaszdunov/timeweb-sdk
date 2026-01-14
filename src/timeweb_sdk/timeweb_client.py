@@ -1,10 +1,7 @@
-from httpx import Client
 from .utils.base_client import BaseClient
 
-from .utils import BearerAuth
 from .utils.exceptions import *
 from .managers import CloudServerManager
-import jwt
 
 
 class TimewebCloudClient:

@@ -13,9 +13,7 @@ class Backup:
     name: str
     comment: str
     created_at: str
-    status: Literal[
-        "precreate", "delete", "shutdown", "recover", "create", "fail", "done"
-    ]
+    status: Literal["precreate", "delete", "shutdown", "recover", "create", "fail", "done"]
     size: int
     type: Literal["manual", "auto"]
     progress: int
